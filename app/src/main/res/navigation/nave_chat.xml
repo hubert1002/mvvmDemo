@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nave_test_1"
+    app:startDestination="@id/chat_thread_fragment">
+
+    <fragment android:id="@+id/chat_thread_fragment"
+        android:name="com.example.testnewide.chat.ThreadFragment"
+        android:label="thread"
+        tools:layout="@layout/fragment_chat_thread">
+        <action android:id="@+id/action_from_thread_to_contact_detail"
+            app:destination="@id/chat_contact_detail_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+    <fragment android:id="@+id/chat_contact_fragment"
+        android:name="com.example.testnewide.chat.ContactFragment"
+        android:label="contact"
+        tools:layout="@layout/fragment_chat_contact">
+
+        <action android:id="@+id/action_jump_contact_detail"
+            app:destination="@id/chat_contact_detail_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+    <fragment android:id="@+id/chat_contact_detail_fragment"
+        android:name="com.example.testnewide.chat.ContactDetailFragment"
+        android:label="contact"
+        tools:layout="@layout/fragment_contact_detail">
+
+        <action android:id="@+id/action_jump_fragment"
+            app:destination="@id/chat_thread_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+
+    </fragment>
+
+
+</navigation>

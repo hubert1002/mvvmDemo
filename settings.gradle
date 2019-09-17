@@ -1,0 +1,2 @@
+include ':lwframework',':app', ':sunflower'
+rootProject.name='TestNewIde'
