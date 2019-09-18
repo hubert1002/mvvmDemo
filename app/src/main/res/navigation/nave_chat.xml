@@ -9,7 +9,7 @@
         android:label="thread"
         tools:layout="@layout/fragment_chat_thread">
         <action android:id="@+id/action_from_thread_to_contact_detail"
-            app:destination="@id/chat_contact_detail_fragment"
+            app:destination="@id/chat_msg_list_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
@@ -37,14 +37,39 @@
         android:label="contact"
         tools:layout="@layout/fragment_contact_detail">
 
-        <action android:id="@+id/action_jump_fragment"
+        <!--<action android:id="@+id/action_jump_fragment"
             app:destination="@id/chat_thread_fragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />-->
+
+    </fragment>
+
+
+
+    <fragment android:id="@+id/chat_msg_list_fragment"
+        android:name="com.example.testnewide.chat.MsgListFragment"
+        android:label="message"
+        tools:layout="@layout/fragment_chat_msg_list">
+
+
+        <action android:id="@+id/action_from_msg_to_contact_detail"
+            app:destination="@id/chat_contact_detail_fragment"
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
 
+
     </fragment>
+
+
+
+
+
+
+
 
 
 </navigation>

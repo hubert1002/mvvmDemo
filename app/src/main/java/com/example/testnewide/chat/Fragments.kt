@@ -13,21 +13,69 @@ import androidx.navigation.fragment.navArgs
 import com.example.testnewide.R
 import com.example.testnewide.chat.viewmodel.*
 import com.example.testnewide.databinding.FragmentChatContactBinding
+import com.example.testnewide.databinding.FragmentChatMsgListBinding
 import com.example.testnewide.databinding.FragmentChatThreadBinding
 import com.example.testnewide.databinding.FragmentContactDetailBinding
 import com.example.testnewide.livedata.ChatData
 import com.example.testnewide.livedata.data.ContactRepo
+import com.example.testnewide.livedata.data.MsgRepo
 import com.example.testnewide.livedata.data.ThreadDao
 import com.example.testnewide.livedata.data.ThreadRepo
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.PlantDetailFragmentArgs
-import com.google.samples.apps.sunflower.adapters.GardenPlantingAdapter
-import com.google.samples.apps.sunflower.databinding.FragmentGardenBinding
-import com.google.samples.apps.sunflower.databinding.FragmentPlantListBinding
-import com.google.samples.apps.sunflower.utilities.InjectorUtils
-import com.google.samples.apps.sunflower.viewmodels.PlantListViewModel
+
+class MsgListFragment :Fragment(){
+    private val contactId :String by lazy {
+        arguments!!.getString("id")
+    }
+    private val viewModel: MsgVM by viewModels {
+        val repository = MsgRepo.getInstance(
+            ChatData.getInstance(requireContext().applicationContext).msgDao())
+        MsgListViewModelFactory(repository,contactId)
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val binding = FragmentChatMsgListBinding.inflate(inflater,container,false).apply {
+            lifecycleOwner = this@MsgListFragment
+            val adapter = MsgAdapter()
+            gardenList.adapter = adapter
+            subscribeUi(adapter,this)
+
+            fab.setOnClickListener { view ->
+                viewModel.addMsg(contactId)
+                Snackbar.make(view, "add success", Snackbar.LENGTH_LONG).show()
+            }
+
+        }
+        return binding.root
+    }
+
+    private fun subscribeUi(adapter: MsgAdapter, binding: FragmentChatMsgListBinding) {
+        viewModel.msgList.observe(viewLifecycleOwner) { msgList ->
+
+            if (!msgList.isNullOrEmpty()){
+                binding.contact = msgList[0].contact
+                if(!msgList[0].messages.isNullOrEmpty()){
+                    binding.hasMsg = !msgList.isNullOrEmpty()
+                    adapter.msgContact = msgList[0].contact
+                    adapter.submitList(msgList[0].messages)
+                }
+            }
+        }
+    }
+
+}
+
+
+
+
 
 class ThreadFragment :Fragment(){
+
 
     private val viewModel: ThreadVM by viewModels {
         val repository = ThreadRepo.getInstance(

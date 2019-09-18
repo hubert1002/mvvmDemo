@@ -31,13 +31,18 @@ interface MsgDao {
     @Query("SELECT * FROM tb_messages WHERE contactId = :contactId")
     fun getMsgWithContact(contactId: String): androidx.lifecycle.LiveData<Message?>
 
-    /**
-     * This query will tell Room to query both the [Plant] and [GardenPlanting] tables and handle
-     * the object mapping.
-     */
+
     @Transaction
     @Query("SELECT * FROM tb_contact")
     fun getContactWithMsg(): androidx.lifecycle.LiveData<List<ContactWithMsg>>
+
+    @Transaction
+    @Query("SELECT * FROM tb_contact WHERE contactId = :contactId")
+    fun getContactWithMsg(contactId:String): LiveData<List<ContactWithMsg>>
+
+    @Transaction
+    @Query("SELECT * FROM tb_contact WHERE contactId = :contactId")
+    fun getContactWithMsg2(contactId:String): List<ContactWithMsg>
 
     @Insert
     fun insertMsg(msg: Message): Long
@@ -92,6 +97,11 @@ interface ThreadDao {
 
     @Delete
     fun deleteThread(thread: Thread)
+
+    @Transaction
+    @Query("SELECT * FROM tb_thread")
+    fun getThreadInfo(): androidx.lifecycle.LiveData<List<ThreadWithMsgContact>>
+
 }
 
 

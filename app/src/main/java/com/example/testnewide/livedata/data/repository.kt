@@ -1,5 +1,7 @@
 package com.example.testnewide.livedata.data
 
+import android.util.Log
+import androidx.lifecycle.LiveData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -59,7 +61,19 @@ class ThreadRepo private constructor(private val dao: ThreadDao){
 
 class MsgRepo private constructor(private val dao: MsgDao){
     fun getContactWithMsg() = dao.getContactWithMsg()
-    fun getContact(id:String) = dao.getMsgWithContact(id)
+    fun getContactWithMsg(contactId:String) = dao.getContactWithMsg(contactId)
+//    fun getContactWithMsg(contactId:String):LiveData<List<ContactWithMsg>>{
+//
+//
+//
+////        var dateori :List<ContactWithMsg> = dao.getContactWithMsg2(contactId)
+////        Log.e("test","dateori"+dateori.size)
+//        var data: LiveData<List<ContactWithMsg>>  = dao.getContactWithMsg(contactId)
+//
+//        return data
+//    }
+
+    fun getMsg(id:String) = dao.getMsgWithContact(id)
     suspend fun insertItem(item: Message) {
         withContext(Dispatchers.IO) {
             dao.insertMsg(item)

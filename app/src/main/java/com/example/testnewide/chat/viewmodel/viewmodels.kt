@@ -62,6 +62,19 @@ class ThreadVM(private val threadRepo: ThreadRepo) :ViewModel(){
     }
 }
 
+class MsgVM(private val msgRepo: MsgRepo,private val contactId:String) :ViewModel(){
+    var msgList: LiveData<List<ContactWithMsg>> = msgRepo.getContactWithMsg(contactId)
+
+    fun addMsg(contactId: String) {
+        viewModelScope.launch {
+            var time = System.currentTimeMillis()
+            val msg = Message(time.toString(),contactId,time.toString())
+            msgRepo.insertItem(msg)
+        }
+    }
+}
+
+
 class ThreadInfoVM (private val threadInfo : ContactWithThread):ViewModel(){
     private val contact = checkNotNull(threadInfo.contact)
     private val threadinfo = threadInfo.threads[0]

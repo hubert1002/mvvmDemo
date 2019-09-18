@@ -21,3 +21,16 @@ class ContactWithMsg {
     @Relation(parentColumn = "contactId", entityColumn = "contactId")
     var messages: List<Message> = arrayListOf()
 }
+
+
+class ThreadWithMsgContact {
+
+    @Embedded
+    lateinit var thread: Thread
+
+    @Relation(parentColumn = "mid", entityColumn = "mid")
+    var messages: List<Message> = arrayListOf()
+
+    @Relation(parentColumn = "contactId", entityColumn = "contactId")
+    var contacts: List<Contact> = arrayListOf()
+}

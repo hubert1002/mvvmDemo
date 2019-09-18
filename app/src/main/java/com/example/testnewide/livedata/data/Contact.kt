@@ -27,14 +27,14 @@ import java.util.Calendar.DAY_OF_YEAR
     indices = [Index("contactId",unique = true)]
 )
 data class Contact(
-    @PrimaryKey(autoGenerate = true)
-    @ColumnInfo(name = "id")
-    val id: Long,
     val contactId: String,
     val age: Int,
     val name: String,
     val description: String,
     val imageUrl: String = ""
 ) {
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "id")
+    var id: Long = 0
     override fun toString() = name
 }

@@ -3,6 +3,7 @@ package com.example.testnewide.chat.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.testnewide.livedata.data.ContactRepo
+import com.example.testnewide.livedata.data.MsgRepo
 import com.example.testnewide.livedata.data.ThreadRepo
 
 class ContactListViewModelFactory(private val repository: ContactRepo) : ViewModelProvider.NewInstanceFactory() {
@@ -24,5 +25,12 @@ class ThreadListViewModelFactory(private val threadRepo: ThreadRepo) : ViewModel
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return ThreadVM(threadRepo) as T
+    }
+}
+
+class MsgListViewModelFactory(private val repo: MsgRepo,private val contactId:String) : ViewModelProvider.NewInstanceFactory() {
+    @Suppress("UNCHECKED_CAST")
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
+        return MsgVM(repo,contactId) as T
     }
 }
