@@ -28,7 +28,7 @@ class ChatActivity:BaseActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
 
-        navController = findNavController(com.google.samples.apps.sunflower.R.id.garden_nav_fragment)
+        navController = findNavController(R.id.chat_nav_fragment)
         appBarConfiguration = AppBarConfiguration(navController.graph, drawer_layout)
 
         // Set up ActionBar

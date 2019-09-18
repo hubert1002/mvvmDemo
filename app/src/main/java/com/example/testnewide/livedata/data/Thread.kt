@@ -6,7 +6,7 @@ import androidx.room.Index
 import androidx.room.PrimaryKey
 import java.util.*
 
-@Entity(tableName = "tb_thread", indices = [Index("contactId")])
+@Entity(tableName = "tb_thread", indices = [Index("contactId",unique = true)])
 data class Thread(
     val contactId: String,
     val mid: String,

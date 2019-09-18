@@ -4,7 +4,9 @@ import androidx.databinding.ObservableField
 import androidx.databinding.ObservableInt
 import androidx.lifecycle.*
 import com.example.testnewide.livedata.data.*
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -55,12 +57,24 @@ class ContactListViewModel internal constructor(repo: ContactRepo) : ViewModel()
 
 
 class ThreadVM(private val threadRepo: ThreadRepo) :ViewModel(){
-    var threadList : LiveData<List<ContactWithThread>> = threadRepo.getContactWithThread().map {item->
+    var threadList : LiveData<List<ThreadWithMsgContact>> = threadRepo.getThreadInfo().map {item->
         item.filter {
-            it.threads.isNotEmpty()
+            it.contacts.isNotEmpty()&& it.messages.isNotEmpty()
         }
     }
 }
+
+
+class ThreadInfo (private val threadInfo : ThreadWithMsgContact):ViewModel(){
+    private val contact = checkNotNull(threadInfo.contacts[0])
+    private val message = checkNotNull(threadInfo.messages[0])
+    val msg = ObservableField<String>(message.msg)
+    val imageUrl = ObservableField<String>(contact.imageUrl)
+    val name = ObservableField<String>(contact.name)
+
+}
+
+
 
 class MsgVM(private val msgRepo: MsgRepo,private val contactId:String) :ViewModel(){
     var msgList: LiveData<List<ContactWithMsg>> = msgRepo.getContactWithMsg(contactId)
@@ -72,15 +86,13 @@ class MsgVM(private val msgRepo: MsgRepo,private val contactId:String) :ViewMode
             msgRepo.insertItem(msg)
         }
     }
+
+    fun addMsgAndUpdateThread(contactId: String){
+        viewModelScope.launch {
+            var time = System.currentTimeMillis()
+            val msg = Message(time.toString(),contactId,time.toString())
+            msgRepo.insertItemAndUpdateThread(msg)
+        }
+    }
 }
 
-
-class ThreadInfoVM (private val threadInfo : ContactWithThread):ViewModel(){
-    private val contact = checkNotNull(threadInfo.contact)
-    private val threadinfo = threadInfo.threads[0]
-    private val dateFormat by lazy { SimpleDateFormat("MMM d, yyyy", Locale.US) }
-    val wateringInterval = ObservableInt(contact.age)
-    val imageUrl = ObservableField<String>(contact.imageUrl)
-    val name = ObservableField<String>(contact.name)
-
-}

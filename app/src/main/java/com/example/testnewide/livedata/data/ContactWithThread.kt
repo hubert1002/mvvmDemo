@@ -29,8 +29,8 @@ class ThreadWithMsgContact {
     lateinit var thread: Thread
 
     @Relation(parentColumn = "mid", entityColumn = "mid")
-    var messages: List<Message> = arrayListOf()
+    public var messages: List<Message> = arrayListOf()
 
     @Relation(parentColumn = "contactId", entityColumn = "contactId")
-    var contacts: List<Contact> = arrayListOf()
+    public var contacts: List<Contact> = arrayListOf()
 }

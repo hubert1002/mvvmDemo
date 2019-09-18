@@ -23,8 +23,8 @@
             name="clickListener"
             type="android.view.View.OnClickListener"/>
         <variable
-            name="viewModel"
-            type="com.example.testnewide.livedata.data.ContactWithThread"/>
+            name="threadInfo"
+            type="com.example.testnewide.chat.viewmodel.ThreadInfo"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +41,7 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:contentDescription="@string/a11y_plant_item_image"
             android:scaleType="centerCrop"
-            app:imageFromUrl="@{viewModel.contact.imageUrl}"
+            app:imageFromUrl="@{threadInfo.imageUrl}"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,10 +56,24 @@
             android:layout_marginEnd="@dimen/margin_small"
             android:layout_marginStart="@dimen/margin_small"
             android:layout_marginTop="@dimen/margin_normal"
-            android:text="@{viewModel.contact.name}"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:text="@{threadInfo.name}"
+            app:layout_constraintEnd_toStartOf="@+id/message"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/imageView"/>
+
+
+        <TextView
+            android:id="@+id/message"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/margin_small"
+            android:layout_marginStart="@dimen/margin_small"
+            android:layout_marginTop="@dimen/margin_normal"
+            android:text="@{threadInfo.msg}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/plant_date"
+            app:layout_constraintTop_toBottomOf="@id/imageView"/>
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

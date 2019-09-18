@@ -36,6 +36,7 @@ class ThreadRepo private constructor(private val dao: ThreadDao){
     fun getThreads(id:String) = dao.getThread(id)
     fun getThreadsWithContact(id:String) = dao.getThreadsWithContact(id)
     fun getContactWithThread() = dao.getContactWithThread()
+    fun getThreadInfo() = dao.getThreadInfo()
 
     suspend fun insertItem(item: Thread) {
         withContext(Dispatchers.IO) {
@@ -79,6 +80,12 @@ class MsgRepo private constructor(private val dao: MsgDao){
             dao.insertMsg(item)
         }
     }
+    suspend fun insertItemAndUpdateThread(item: Message) {
+        withContext(Dispatchers.IO) {
+            dao.insertAndUpdateThread(item)
+        }
+    }
+
     suspend fun remove(item: Message) {
         withContext(Dispatchers.IO) {
             dao.deleteMsg(item)

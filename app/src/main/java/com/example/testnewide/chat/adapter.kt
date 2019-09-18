@@ -4,12 +4,13 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.testnewide.R
-import com.example.testnewide.chat.viewmodel.ThreadInfoVM
+import com.example.testnewide.chat.viewmodel.ThreadInfo
 import com.example.testnewide.chat.viewmodel.ThreadVM
 import com.example.testnewide.databinding.ListItemContactBinding
 import com.example.testnewide.databinding.ListItemMsgBinding
@@ -17,6 +18,7 @@ import com.example.testnewide.databinding.ListItemThreadBinding
 import com.example.testnewide.livedata.data.Contact
 import com.example.testnewide.livedata.data.ContactWithThread
 import com.example.testnewide.livedata.data.Message
+import com.example.testnewide.livedata.data.ThreadWithMsgContact
 import com.google.samples.apps.sunflower.PlantListFragmentDirections
 
 class ContactAdapter:ListAdapter<Contact,ContactAdapter.ViewHolder>(ContactDiffCallback()){
@@ -69,7 +71,7 @@ private class ContactDiffCallback : DiffUtil.ItemCallback<Contact>() {
 }
 
 
-class ThreadAdapter:ListAdapter<ContactWithThread,ThreadAdapter.ViewHolder>(ThreadDiffCallback()){
+class ThreadAdapter:ListAdapter<ThreadWithMsgContact,ThreadAdapter.ViewHolder>(ThreadDiffCallback()){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         return ThreadAdapter.ViewHolder(
             ListItemThreadBinding.inflate(
@@ -81,17 +83,17 @@ class ThreadAdapter:ListAdapter<ContactWithThread,ThreadAdapter.ViewHolder>(Thre
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = getItem(position)
         holder.apply {
-            bind(createOnClickListener(item.contact.contactId), item)
+            bind(createOnClickListener(item.contacts[0].contactId), item)
             itemView.tag = item
         }
     }
 
 
     class ViewHolder(private val binding : ListItemThreadBinding) :RecyclerView.ViewHolder(binding.root){
-        fun bind(listener: View.OnClickListener,item: ContactWithThread){
+        fun bind(listener: View.OnClickListener,item: ThreadWithMsgContact){
             binding.apply {
                 clickListener = listener
-                viewModel = item
+                threadInfo = ThreadInfo(item)
                 executePendingBindings()
             }
         }
@@ -101,19 +103,23 @@ class ThreadAdapter:ListAdapter<ContactWithThread,ThreadAdapter.ViewHolder>(Thre
         return View.OnClickListener {
             val bundle = Bundle()
             bundle.putString("id",contactId)
+//            var options =NavOptions.Builder()
+//                .setLaunchSingleTop(true)
+//                .setPopUpTo(R.id.chat_thread_fragment,false)
+//                .build()
             it.findNavController().navigate(R.id.action_from_thread_to_contact_detail,bundle)
         }
     }
 }
 
-private class ThreadDiffCallback : DiffUtil.ItemCallback<ContactWithThread>() {
+private class ThreadDiffCallback : DiffUtil.ItemCallback<ThreadWithMsgContact>() {
 
-    override fun areItemsTheSame(oldItem: ContactWithThread, newItem: ContactWithThread): Boolean {
-        return oldItem.contact.contactId == newItem.contact.contactId
+    override fun areItemsTheSame(oldItem: ThreadWithMsgContact, newItem: ThreadWithMsgContact): Boolean {
+        return oldItem.thread.id == newItem.thread.id
     }
 
-    override fun areContentsTheSame(oldItem: ContactWithThread, newItem: ContactWithThread): Boolean {
-        return oldItem.contact == newItem.contact
+    override fun areContentsTheSame(oldItem: ThreadWithMsgContact, newItem: ThreadWithMsgContact): Boolean {
+        return oldItem.thread == newItem.thread
     }
 }
 

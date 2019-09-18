@@ -49,6 +49,18 @@ interface MsgDao {
 
     @Delete
     fun deleteMsg(msg: Message)
+
+    //------
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertThreadInner(thread: Thread): Long
+
+
+    @Transaction
+    fun insertAndUpdateThread(msg: Message){
+        insertMsg(msg)
+        var thread = com.example.testnewide.livedata.data.Thread(msg.contactId,msg.mid)
+        insertThreadInner(thread)
+    }
 }
 
 @Dao
@@ -92,7 +104,7 @@ interface ThreadDao {
     @Query("SELECT * FROM tb_contact")
     fun getContactWithThread(): androidx.lifecycle.LiveData<List<ContactWithThread>>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertThread(thread: Thread): Long
 
     @Delete

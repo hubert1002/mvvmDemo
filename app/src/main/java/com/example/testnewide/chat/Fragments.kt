@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
+import androidx.navigation.NavOptions
+import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.testnewide.R
 import com.example.testnewide.chat.viewmodel.*
@@ -46,7 +48,7 @@ class MsgListFragment :Fragment(){
             subscribeUi(adapter,this)
 
             fab.setOnClickListener { view ->
-                viewModel.addMsg(contactId)
+                viewModel.addMsgAndUpdateThread(contactId)
                 Snackbar.make(view, "add success", Snackbar.LENGTH_LONG).show()
             }
 
@@ -132,8 +134,17 @@ class ContactDetailFragment:Fragment(){
             viewModel = contactDetailViewModel
             lifecycleOwner = this@ContactDetailFragment
             fab.setOnClickListener { view ->
-                contactDetailViewModel.add2Thread(contactId)
-                Snackbar.make(view, "add success", Snackbar.LENGTH_LONG).show()
+                //jump to msg list
+                val bundle = Bundle()
+                bundle.putString("id",contactId)
+//                var options = NavOptions.Builder()
+//                    .setLaunchSingleTop(true)
+//                    .setPopUpTo(R.id.chat_thread_fragment,false)
+//                    .build()
+
+                view.findNavController().navigate(R.id.action_from_contactDetail_to_msg_list,bundle)
+//                contactDetailViewModel.add2Thread(contactId)
+//                Snackbar.make(view, "add success", Snackbar.LENGTH_LONG).show()
             }
         }
 
