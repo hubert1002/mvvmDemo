@@ -6,12 +6,17 @@
 
     <Button
         android:id="@+id/btn1"
-        android:text="btn1"
+        android:text="测试导航"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
     <Button
         android:id="@+id/btn2"
-        android:text="btn2"
+        android:text="聊天demo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/btn3"
+        android:text="测试dagger"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 </LinearLayout>

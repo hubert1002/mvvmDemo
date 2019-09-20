@@ -19,6 +19,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.testnewide.chat.ChatActivity
 import com.example.testnewide.livedata.ChatData
+import com.example.testnewide.testdagger.TestDagger
 import kotlinx.android.synthetic.main.actiivity_test.*
 import kotlinx.android.synthetic.main.activity_garden_test1.*
 
@@ -42,6 +43,9 @@ class TestActivity :BaseActivity(){
 
                 ChatData.getInstance(MainActivity@this.applicationContext).contactDao()
             }
+            R.id.btn3->{
+               TestDagger().testDagger()
+            }
             else->{
 
             }
@@ -54,6 +58,7 @@ class TestActivity :BaseActivity(){
         setContentView(R.layout.actiivity_test)
         btn1.setOnClickListener(listener)
         btn2.setOnClickListener(listener)
+        btn3.setOnClickListener(listener)
     }
 }
 
