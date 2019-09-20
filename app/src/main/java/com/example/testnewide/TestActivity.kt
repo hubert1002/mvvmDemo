@@ -18,6 +18,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.testnewide.chat.ChatActivity
+import com.example.testnewide.chat.di.TestDaggerActivity
 import com.example.testnewide.livedata.ChatData
 import com.example.testnewide.testdagger.TestDagger
 import kotlinx.android.synthetic.main.actiivity_test.*
@@ -46,6 +47,11 @@ class TestActivity :BaseActivity(){
             R.id.btn3->{
                TestDagger().testDagger()
             }
+            R.id.btn4->{
+                var intent = Intent()
+                intent.setClass(MainActivity@this,TestDaggerActivity::class.java)
+                startActivity(intent)
+            }
             else->{
 
             }
@@ -59,6 +65,7 @@ class TestActivity :BaseActivity(){
         btn1.setOnClickListener(listener)
         btn2.setOnClickListener(listener)
         btn3.setOnClickListener(listener)
+        btn4.setOnClickListener(listener)
     }
 }
 

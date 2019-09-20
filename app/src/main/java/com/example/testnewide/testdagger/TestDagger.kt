@@ -1,6 +1,7 @@
 package com.example.testnewide.testdagger
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import dagger.BindsInstance
 import dagger.Component
@@ -8,13 +9,15 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Inject
 
-public class AObject(){
+public class AObject{
+
     fun eat(){
-        Log.e("test","eat")
+        Log.e("test", "eat")
     }
 }
 @Module
-public class AModule(){
+public class AModule{
+
     @Provides
     fun providerAObject():AObject{
         return AObject()
@@ -32,6 +35,7 @@ public interface AComponent {
         fun application(application: Application): Builder
 
         fun build(): AComponent
+
     }
 
 
