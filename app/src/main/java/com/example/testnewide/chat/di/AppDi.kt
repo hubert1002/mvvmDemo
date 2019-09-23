@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.testnewide.TestApp
+import com.example.testnewide.livedata.ChatData
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module

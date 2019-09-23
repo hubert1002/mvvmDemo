@@ -7,12 +7,15 @@ import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.lifecycle.observe
 import androidx.navigation.NavOptions
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.testnewide.R
+import com.example.testnewide.TestApp
 import com.example.testnewide.chat.viewmodel.*
 import com.example.testnewide.databinding.FragmentChatContactBinding
 import com.example.testnewide.databinding.FragmentChatMsgListBinding
@@ -25,6 +28,22 @@ import com.example.testnewide.livedata.data.ThreadDao
 import com.example.testnewide.livedata.data.ThreadRepo
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.PlantDetailFragmentArgs
+
+
+open class BaseDaggerFragment:Fragment(){
+    val factory: ViewModelProvider.Factory by lazy {
+        if (requireActivity().application is TestApp) {
+            val mainApplication = requireActivity().application as TestApp
+            return@lazy mainApplication.factory
+        }else{
+            throw IllegalStateException("application is not PaoApp")
+        }
+    }
+
+    fun <T : ViewModel> getInjectViewModel (c:Class<T>)= ViewModelProviders.of(this,factory).get(c)
+
+}
+
 
 class MsgListFragment :Fragment(){
     private val contactId :String by lazy {
@@ -117,8 +136,7 @@ class ContactDetailFragment:Fragment(){
     }
 
     private val contactDetailViewModel : ContactDetailViewModel by viewModels {
-        val repository = ContactRepo.getInstance(
-            ChatData.getInstance(requireContext().applicationContext).contactDao())
+        val repository = ContactRepo.getInstance(requireActivity().application)
         val threadrepo = ThreadRepo.getInstance(
             ChatData.getInstance(requireContext().applicationContext).threadDao())
 
@@ -167,13 +185,10 @@ class ContactDetailFragment:Fragment(){
 
 
 
-class ContactFragment : Fragment(){
+class ContactFragment : BaseDaggerFragment(){
 
     private val viewModel: ContactListViewModel by viewModels {
-        val repository = ContactRepo.getInstance(
-            ChatData.getInstance(requireContext().applicationContext).contactDao())
-        ContactListViewModelFactory(repository)
-//        InjectorUtils.providePlantListViewModelFactory(requireContext())
+        factory
     }
 
     override fun onCreateView(

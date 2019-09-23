@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import java.util.*
+import javax.inject.Inject
 
 
 class ContactDetailViewModel (private val repo: ContactRepo, private val threadRepo: ThreadRepo, val id:String):ViewModel(){
@@ -28,7 +29,7 @@ class ContactDetailViewModel (private val repo: ContactRepo, private val threadR
 }
 
 
-class ContactListViewModel internal constructor(repo: ContactRepo) : ViewModel() {
+class ContactListViewModel @Inject constructor(private val repo: ContactRepo) : ViewModel() {
 
     private val age = MutableLiveData<Int>().apply { value = NONE }
 

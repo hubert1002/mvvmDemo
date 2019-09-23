@@ -1,34 +1,42 @@
 package com.example.testnewide.livedata.data
 
+import android.app.Application
 import android.util.Log
 import androidx.lifecycle.LiveData
+import com.example.testnewide.livedata.ChatData
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class ContactRepo private constructor(private val dao: ContactDao){
-    fun getContact() = dao.getContact()
-    fun getContact(id:String) = dao.getContact(id)
-    fun getContactWithAge(age:Int) = dao.getContactWithAge(age)
+class ContactRepo @Inject constructor(private val application: Application){
+    fun getContactDao():ContactDao{
+        return ChatData.getInstance(application).contactDao()
+    }
+    fun getContact() = getContactDao().getContact()
+    fun getContact(id:String) = getContactDao().getContact(id)
+    fun getContactWithAge(age:Int) = getContactDao().getContactWithAge(age)
     suspend fun insertItem(item: Contact) {
         withContext(Dispatchers.IO) {
-            dao.insertContact(item)
+            getContactDao().insertContact(item)
         }
     }
     suspend fun remove(item: Contact) {
         withContext(Dispatchers.IO) {
-            dao.deleteContact(item)
+            getContactDao().deleteContact(item)
         }
     }
+
 
     companion object {
         // For Singleton instantiation
         @Volatile private var instance: ContactRepo? = null
 
-        fun getInstance(dao: ContactDao) =
+        fun getInstance(application: Application) =
             instance ?: synchronized(this) {
-                instance ?: ContactRepo(dao).also { instance = it }
+                instance ?: ContactRepo(application).also { instance = it }
             }
     }
+
 }
 
 class ThreadRepo private constructor(private val dao: ThreadDao){

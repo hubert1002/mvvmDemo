@@ -1,12 +1,12 @@
 package com.example.testnewide.chat.di
 
 import android.app.Application
-import androidx.databinding.ObservableField
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.map
-import com.example.testnewide.livedata.data.ThreadRepo
-import com.example.testnewide.livedata.data.ThreadWithMsgContact
+import androidx.lifecycle.*
+import com.example.testnewide.livedata.ChatData
+import com.example.testnewide.livedata.data.Contact
+import com.example.testnewide.livedata.data.ContactDao
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TestVM @Inject constructor (private val repo: TestRepo) : ViewModel(){
@@ -23,10 +23,4 @@ class TestDao @Inject constructor (private val application: Application,private 
 
 }
 
-//class TestDao @Inject constructor (){
-//
-//    fun getPackageName():String{
-//        return "hah"
-//    }
-//
-//}
+
