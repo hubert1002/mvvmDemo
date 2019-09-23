@@ -20,6 +20,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.testnewide.chat.ChatActivity
 import com.example.testnewide.chat.di.TestDaggerActivity
 import com.example.testnewide.livedata.ChatData
+import com.example.testnewide.net.NetTest
 import com.example.testnewide.testdagger.TestDagger
 import kotlinx.android.synthetic.main.actiivity_test.*
 import kotlinx.android.synthetic.main.activity_garden_test1.*
@@ -33,6 +34,8 @@ class TestActivity :BaseActivity(){
         Toast.makeText(TestActivity@this,"click"+view.id,Toast.LENGTH_LONG).show()
         when(view.id){
             R.id.btn1->{
+
+                NetTest().test()
                 var intent = Intent()
                 intent.setClass(MainActivity@this,NaviActivity::class.java)
                 startActivity(intent)
