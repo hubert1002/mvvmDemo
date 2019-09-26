@@ -4,11 +4,15 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.testnewide.TestApp
+import com.example.testnewide.chat.ChatActivity
 import com.example.testnewide.livedata.ChatData
 import dagger.BindsInstance
 import dagger.Component
 import dagger.Module
 import dagger.Provides
+import dagger.android.AndroidInjectionModule
+import dagger.android.ContributesAndroidInjector
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Inject
 import javax.inject.Provider
 import javax.inject.Singleton
@@ -16,6 +20,8 @@ import javax.inject.Singleton
 
 @Singleton
 @Component(modules = [
+    AndroidSupportInjectionModule::class,
+    ActivityBindModule::class,
     AppModule::class])
 interface AppComponent {
     /**
@@ -66,7 +72,7 @@ class AppModule(private var app:Application) {
 }
 
 
-
+interface Injectable
 
 class APPViewModelFactory @Inject constructor(private val creators:Map<Class<out ViewModel>, @JvmSuppressWildcards Provider<ViewModel>>): ViewModelProvider.Factory{
 

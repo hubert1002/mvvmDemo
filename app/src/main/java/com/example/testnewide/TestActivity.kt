@@ -22,10 +22,11 @@ import com.example.testnewide.chat.di.TestDaggerActivity
 import com.example.testnewide.livedata.ChatData
 import com.example.testnewide.net.NetTest
 import com.example.testnewide.testdagger.TestDagger
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.actiivity_test.*
 import kotlinx.android.synthetic.main.activity_garden_test1.*
 
-abstract class BaseActivity : AppCompatActivity(){
+abstract class BaseActivity : AppCompatActivity() {
     val tag:String = TestActivity::class.java.name
 }
 

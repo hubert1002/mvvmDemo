@@ -16,6 +16,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.testnewide.R
 import com.example.testnewide.TestApp
+import com.example.testnewide.chat.di.Injectable
 import com.example.testnewide.chat.viewmodel.*
 import com.example.testnewide.databinding.FragmentChatContactBinding
 import com.example.testnewide.databinding.FragmentChatMsgListBinding
@@ -28,21 +29,9 @@ import com.example.testnewide.livedata.data.ThreadDao
 import com.example.testnewide.livedata.data.ThreadRepo
 import com.google.android.material.snackbar.Snackbar
 import com.google.samples.apps.sunflower.PlantDetailFragmentArgs
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
-
-open class BaseDaggerFragment:Fragment(){
-    val factory: ViewModelProvider.Factory by lazy {
-        if (requireActivity().application is TestApp) {
-            val mainApplication = requireActivity().application as TestApp
-            return@lazy mainApplication.factory
-        }else{
-            throw IllegalStateException("application is not PaoApp")
-        }
-    }
-
-    fun <T : ViewModel> getInjectViewModel (c:Class<T>)= ViewModelProviders.of(this,factory).get(c)
-
-}
 
 
 class MsgListFragment :Fragment(){
@@ -185,11 +174,36 @@ class ContactDetailFragment:Fragment(){
 
 
 
-class ContactFragment : BaseDaggerFragment(){
+class ContactFragment : Fragment(), Injectable {
 
-    private val viewModel: ContactListViewModel by viewModels {
+
+    //使用 application 的viewmodelfac，通过Application得到
+    private val viewModel2: ContactListViewModel by viewModels {
         factory
     }
+    val factory: ViewModelProvider.Factory by lazy {
+        if (requireActivity().application is TestApp) {
+            val mainApplication = requireActivity().application as TestApp
+            return@lazy mainApplication.factory
+        }else{
+            throw IllegalStateException("application is not PaoApp")
+        }
+    }
+
+    fun <T : ViewModel> getInjectViewModel (c:Class<T>)= ViewModelProviders.of(this,factory).get(c)
+
+// 通过dagger-support注入得到viewmodelfac
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    private val viewModel: ContactListViewModel by viewModels {
+        viewModelFactory
+    }
+
+//    override fun onCreate(savedInstanceState: Bundle?) {
+//        AndroidSupportInjection.inject(this)
+//        super.onCreate(savedInstanceState)
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
