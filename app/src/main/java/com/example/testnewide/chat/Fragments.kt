@@ -36,7 +36,7 @@ import javax.inject.Inject
 
 class MsgListFragment :Fragment(){
     private val contactId :String by lazy {
-        arguments!!.getString("id")
+        arguments!!.getString("id")!!
     }
     private val viewModel: MsgVM by viewModels {
         val repository = MsgRepo.getInstance(
@@ -121,7 +121,7 @@ class ContactDetailFragment:Fragment(){
     private val args: PlantDetailFragmentArgs by navArgs()
 
     private val contactId :String by lazy {
-       arguments!!.getString("id")
+       arguments!!.getString("id")!!
     }
 
     private val contactDetailViewModel : ContactDetailViewModel by viewModels {

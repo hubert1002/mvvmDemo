@@ -3,6 +3,7 @@ package com.example.testnewide.chat
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -52,6 +53,7 @@ class ChatActivity: AppCompatActivity(),HasSupportFragmentInjector{
 
         // Set up navigation menu
         navigation_view.setupWithNavController(navController)
+        toolbar.title ="dafdf"
     }
 
     override fun onSupportNavigateUp(): Boolean {
